@@ -1,0 +1,6 @@
+fileignoreconfig:
+- filename: src/main/resources/db/migration/V1.1__CreateVersionTable.sql
+  checksum: 57f096ddf36a315a1335d1af91d60b9d0da4264c99757b6533c9113b35cf98af
+- filename: src/main/resources/db/migration/V1.2__AlterTableVersion.sql
+  checksum: 3aa15adae34f3787068c937f68c80089d2783d322f5a81cbcf740b235c129163
+version: ""

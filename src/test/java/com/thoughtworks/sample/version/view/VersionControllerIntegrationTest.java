@@ -36,4 +36,12 @@ public class VersionControllerIntegrationTest {
                         "{'CurrentVersion': 'v2'" + "}"));
         versionRepository.deleteAll();
     }
+    @Test
+    public void should_return_not_found_status_when_version_not_found() throws Exception{
+        versionRepository.deleteAll();
+
+        mockMvc.perform(get("/version"))
+                .andExpect(status().isNotFound());
+
+    }
 }
