@@ -1,0 +1,22 @@
+version: '3.0'
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB= sample
+      - POSTGRES_USER= sakthi
+      - POSTGRES_PASSWORD= sakthi
+
+  web:
+    build: .
+    environment:
+      - DB_HOST=db
+      - UI_HOST=http://localhost:3000
+      - DB_PORT= 5433
+      - POSTGRES_PASSWORD= sakthi
+    links:
+      - db
+    ports:
+      - "8080:8080"
