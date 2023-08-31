@@ -12,6 +12,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -33,6 +34,19 @@ public class VersionServiceTest {
         String expectedVersion = "v2";
 
         assertThat(versionService.version() , is(equalTo(expectedVersion)));
+
+    }
+    @Test
+    public void should_throw_exception_when_no_version_in_table() throws VersionNotAvailableException {
+        versionRepository = mock(VersionRepository.class);
+        versionService = new VersionService(versionRepository);
+        Version version = new Version(1,"v2");
+        List<Version> versions = new ArrayList<>();
+        when(versionRepository.currentVersion()).thenReturn(versions);
+
+        assertThrows(VersionNotAvailableException.class, () -> {
+            versionService.version();
+        });
 
     }
 }
