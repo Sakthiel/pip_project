@@ -21,7 +21,7 @@ public class VersionController {
     public VersionController(VersionService versionService) {
         this.versionService = versionService;
     }
-    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "Requestor-Type", exposedHeaders = "X-Get-Header")
+//    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "Requestor-Type", exposedHeaders = "X-Get-Header")
     @GetMapping()
     @ResponseStatus(code = HttpStatus.OK)
     @ApiResponses(value = {
