@@ -4,3 +4,10 @@ fileignoreconfig:
 - filename: src/main/resources/db/migration/V1.2__AlterTableVersion.sql
   checksum: 3aa15adae34f3787068c937f68c80089d2783d322f5a81cbcf740b235c129163
 version: ""
+fileignoreconfig:
+- filename: src/main/resources/db/migration/V1.3__CreateUserTable.sql
+  checksum: 562276e1cfb17646e90d4479bf6a165a791df3b29387ccd3b0587feacf839216
+- filename: src/main/java/com/thoughtworks/sample/users/repository/User.java
+  checksum: ff7144b302bd347ce991d0c64c0b11a87d1a4e7d27740b528601bc9de97a76d7
+version: ""
+
