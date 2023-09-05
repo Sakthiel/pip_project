@@ -1,7 +1,10 @@
 package com.thoughtworks.sample.products.view;
 
 import com.thoughtworks.sample.Application;
+import com.thoughtworks.sample.product.repository.Product;
 import com.thoughtworks.sample.product.repository.ProductRepository;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +18,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.math.BigDecimal;
+
 import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.post;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = Application.class)
@@ -32,6 +38,10 @@ public class ProductControllerIntegrationTest {
 
     @BeforeEach
     public void beforeEach(){
+        productRepository.deleteAll();
+    }
+    @AfterEach
+    public void afterEach(){
         productRepository.deleteAll();
     }
 @Test
@@ -52,6 +62,59 @@ public class ProductControllerIntegrationTest {
                         "\"category\" : \"Fruit\" , " +
                         "\"unitPrice\" : 200 " +
                         "}"));
+    }
+
+    @Test
+        public void should_return_all_products() throws Exception{
+        productRepository.save(new Product("Apple" , "Fruit" , BigDecimal.valueOf(100)));
+
+        mockMvc.perform(get("/products"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(
+                        "[\n" +
+                                "    {\n" +
+                                "        \"id\": 1,\n" +
+                                "        \"productName\": \"Apple\",\n" +
+                                "        \"category\": \"Fruit\",\n" +
+                                "        \"unitPrice\": 100.00\n" +
+                                "    }\n" +
+                                "]"));
+
+    }
+
+    @Test
+     public void should_delete_the_product_by_id() throws Exception{
+        productRepository.save(new Product("Apple" , "Fruit" , BigDecimal.valueOf(100)));
+
+        mockMvc.perform(delete("/products/1"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Deleted product with id 1"));
+    }
+
+    @Test
+    public void should_update_the_product_by_id() throws Exception{
+        productRepository.save(new Product("Apple" , "Fruit" , BigDecimal.valueOf(100)));
+
+        final String requestJson = "{" +
+                "\"productName\" : \"Banana\" ," +
+                "\"category\" : \"Fruit\" , " +
+                "\"unitPrice\" : 200 " +
+                "}";
+
+        mockMvc.perform(put("/products/1")
+                            .contentType(MediaType.APPLICATION_JSON_VALUE)
+                            .content(requestJson))
+                            .andExpect(status().isOk())
+                            .andExpect(MockMvcResultMatchers.content().json(
+
+                                            "    {\n" +
+                                            "        \"id\": 1,\n" +
+                                            "        \"productName\": \"Banana\",\n" +
+                                            "        \"category\": \"Fruit\",\n" +
+                                            "        \"unitPrice\": 200.00\n" +
+                                            "    }\n" 
+                                            ));
+
     }
 
 }
