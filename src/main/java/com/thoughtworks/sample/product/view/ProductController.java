@@ -39,4 +39,10 @@ public class ProductController {
     public Product update(@PathVariable int productId , @RequestBody Product product){
         return productService.update(productId , product);
     }
+
+    @GetMapping("/category")
+    @ResponseStatus(code = HttpStatus.OK)
+    public List<String> category(){
+        return productService.getCategories();
+    }
 }

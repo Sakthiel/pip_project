@@ -68,16 +68,16 @@ public class ProductControllerIntegrationTest {
         public void should_return_all_products() throws Exception{
         productRepository.save(new Product("Apple" , "Fruit" , BigDecimal.valueOf(100)));
 
-        mockMvc.perform(get("/products"))
+        mockMvc.perform(get("/products").with(httpBasic("Shop_Owner", "Owner")))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(
-                        "[\n" +
-                                "    {\n" +
-                                "        \"id\": 1,\n" +
-                                "        \"productName\": \"Apple\",\n" +
-                                "        \"category\": \"Fruit\",\n" +
-                                "        \"unitPrice\": 100.00\n" +
-                                "    }\n" +
+                        "[" +
+                                "    {" +
+                                "        \"id\": 3," +
+                                "        \"productName\": \"Apple\"," +
+                                "        \"category\": \"Fruit\"," +
+                                "        \"unitPrice\": 100.00" +
+                                "    }" +
                                 "]"));
 
     }
@@ -86,7 +86,7 @@ public class ProductControllerIntegrationTest {
      public void should_delete_the_product_by_id() throws Exception{
         productRepository.save(new Product("Apple" , "Fruit" , BigDecimal.valueOf(100)));
 
-        mockMvc.perform(delete("/products/1"))
+        mockMvc.perform(delete("/products/1").with(httpBasic("Shop_Owner", "Owner")))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("Deleted product with id 1"));
     }
@@ -103,7 +103,7 @@ public class ProductControllerIntegrationTest {
 
         mockMvc.perform(put("/products/1")
                             .contentType(MediaType.APPLICATION_JSON_VALUE)
-                            .content(requestJson))
+                            .content(requestJson).with(httpBasic("Shop_Owner", "Owner")))
                             .andExpect(status().isOk())
                             .andExpect(MockMvcResultMatchers.content().json(
 
@@ -112,7 +112,7 @@ public class ProductControllerIntegrationTest {
                                             "        \"productName\": \"Banana\",\n" +
                                             "        \"category\": \"Fruit\",\n" +
                                             "        \"unitPrice\": 200.00\n" +
-                                            "    }\n" 
+                                            "    }\n"
                                             ));
 
     }

@@ -51,4 +51,8 @@ public class ProductService {
         product.setUnitPrice(updatedProductInfo.getUnitPrice());
         return product;
     }
+
+    public List<String> getCategories() {
+        return productRepository.findAllCategories();
+    }
 }

@@ -26,15 +26,15 @@ public class UserPrincipalServiceTest {
 
     @Test
     public void should_load_user_by_username() {
-        User mockUser = new User();
-        mockUser.setUsername("testUser");
+        User user = new User();
+        user.setUsername("testUser");
 
-        when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(mockUser));
+        when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
 
         UserDetails userDetails = userPrincipalService.loadUserByUsername("testUser");
 
         assertNotNull(userDetails);
-        assertEquals(mockUser.getUsername(), userDetails.getUsername());
+        assertEquals(user.getUsername(), userDetails.getUsername());
     }
 
     @Test
