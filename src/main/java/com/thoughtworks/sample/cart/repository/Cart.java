@@ -4,6 +4,7 @@ import com.thoughtworks.sample.product.repository.Product;
 import com.thoughtworks.sample.users.repository.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 
 @Entity
 @Table(name = "cart")
@@ -17,7 +18,7 @@ public class Cart {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
+    @DecimalMin(value = "1" , inclusive = true , message = "quantity should not be less than {value}")
     private Integer quantity;
 
     public Cart() {

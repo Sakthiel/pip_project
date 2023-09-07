@@ -2,10 +2,12 @@ package com.thoughtworks.sample.cart;
 
 import com.thoughtworks.sample.cart.repository.Cart;
 import com.thoughtworks.sample.cart.repository.CartRepository;
+import com.thoughtworks.sample.cart.view.models.CartResponse;
 import com.thoughtworks.sample.product.repository.Product;
 import com.thoughtworks.sample.product.repository.ProductRepository;
 import com.thoughtworks.sample.users.repository.User;
 import com.thoughtworks.sample.users.repository.UserRepository;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,4 +72,14 @@ public class CartService {
             cartRepository.delete(cartItem.get());
             return "Deleted cartItem with id " + cartId;
     }
+
+    public Cart decrementalUpdate(Cart cart , Long cartId){
+        Optional<Cart> cartItem = cartRepository.findById(cartId);
+        if(cartItem.isEmpty()){
+            throw new RuntimeException("Cart Item not found");
+        }
+        return cartRepository.save(cart);
+    }
+
+
 }

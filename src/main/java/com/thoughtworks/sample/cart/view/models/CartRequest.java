@@ -3,6 +3,8 @@ package com.thoughtworks.sample.cart.view.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.DecimalMin;
+
 public class CartRequest {
     @JsonProperty
     @ApiModelProperty( required = true)
@@ -12,6 +14,7 @@ public class CartRequest {
     private String userName;
     @JsonProperty
     @ApiModelProperty( required = true)
+    @DecimalMin(value = "0" , inclusive = true , message = "quantity should not be less than {value}")
     private Integer quantity;
 
     public CartRequest() {

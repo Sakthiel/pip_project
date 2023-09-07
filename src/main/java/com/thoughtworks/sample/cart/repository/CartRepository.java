@@ -13,5 +13,7 @@ public interface CartRepository extends JpaRepository<Cart , Integer> {
 
 
     Optional<Cart> findById(Long Id);
+    @Query(value = "select count(*) from cart" , nativeQuery = true)
+    Integer findNoOfCartItems();
 
 }

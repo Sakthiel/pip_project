@@ -41,4 +41,10 @@ public class CartController {
     public String delete(@PathVariable Long cartId){
         return cartService.delete(cartId);
 }
+
+    @PutMapping("/{cartId}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public Cart update(@RequestBody Cart cartItem , @PathVariable Long cartId){
+        return cartService.decrementalUpdate(cartItem , cartId);
+    }
 }
