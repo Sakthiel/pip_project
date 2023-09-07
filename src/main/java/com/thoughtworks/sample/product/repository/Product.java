@@ -24,6 +24,8 @@ public class Product {
     @NotNull
     private BigDecimal unitPrice;
 
+
+
     public Product() {
     }
 

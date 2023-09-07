@@ -1,5 +1,6 @@
 package com.thoughtworks.sample.products;
 
+import com.thoughtworks.sample.cart.repository.CartRepository;
 import com.thoughtworks.sample.product.ProductService;
 import com.thoughtworks.sample.product.repository.Product;
 import com.thoughtworks.sample.product.repository.ProductRepository;
@@ -21,11 +22,13 @@ public class ProductServiceTest {
     private ProductRepository productRepository;
     private Product product;
 
+    private CartRepository cartRepository;
+
     @BeforeEach
     public void beforeEach() {
         productRepository = mock(ProductRepository.class);
 
-        productService = new ProductService(productRepository);
+        productService = new ProductService(productRepository , cartRepository);
 
         product = new Product("Apple" , "Fruit" , BigDecimal.valueOf(100));
 
