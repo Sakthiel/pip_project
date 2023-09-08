@@ -18,7 +18,7 @@ public class DataSeeder {
                 versionRepository.save(new Version(1,"v2"));
             }
             if (userRepository.findByUsername("Shop_Owner").isEmpty()) {
-                User user1 = userRepository.save(new User("Shop_Owner", "Owner"));
+                User user1 = userRepository.save(new User("Shop_Owner", "Owner" , "ROLE_ADMIN"));
             }
         };
     }

@@ -16,3 +16,15 @@ fileignoreconfig:
   checksum: ad0f5dbc31ae3364562f09fa685a3902e41dbc470907cb5cff886a017c31628a
 version: ""
 
+fileignoreconfig:
+- filename: src/main/resources/db/migration/V1.5__AlterProductTable.sql
+  checksum: cd21001ebbb7f92d279f277588e35d0a5b5d710ba464de3c70f51f67c5317daa
+- filename: src/main/resources/db/migration/V1.6__AlterProductTable.sql
+  checksum: 9bc1d54f9524cf722ecda2852253738a8fe0552bf59fa6f64b01ddfff94e190c
+- filename: src/main/resources/db/migration/V1.7__CreateCartTable.sql
+  checksum: 2bf78588f4fe833e128cda2c4fde248741494c6bf0715d59679bd30f975edd88
+- filename: src/test/java/com/thoughtworks/sample/cart/view/CartControllerIntegrationTest.java
+  checksum: 6da02023a648f7b6a11f820d77105d259b911d4e6e218c628eb922ddf1684842
+version: ""
+
+

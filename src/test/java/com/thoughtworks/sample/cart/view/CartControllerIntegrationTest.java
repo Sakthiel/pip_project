@@ -62,7 +62,7 @@ public class CartControllerIntegrationTest {
 
         Product product = new Product("Apple" , "Fruit" , BigDecimal.valueOf(100));
 
-        User user = new User("Shop_Owner" , "Owner");
+        User user = new User("Shop_Owner" , "Owner" , "ROLE_ADMIN");
 
         productRepository.save(product);
 
@@ -99,7 +99,7 @@ public class CartControllerIntegrationTest {
 
         Product product = new Product("Apple" , "Fruit" , BigDecimal.valueOf(100));
 
-        User user = new User("Shop_Owner" , "Owner");
+        User user = new User("Shop_Owner" , "Owner", "ROLE_ADMIN");
 
         productRepository.save(product);
         userRepository.save(user);
@@ -137,7 +137,7 @@ public class CartControllerIntegrationTest {
     public void should_return_all_cart_items() throws Exception {
         Product product = new Product("Apple" , "Fruit" , BigDecimal.valueOf(100));
 
-        User user = new User("Shop_Owner" , "Owner");
+        User user = new User("Shop_Owner" , "Owner" , "ROLE_ADMIN");
 
         productRepository.save(product);
         userRepository.save(user);
@@ -167,7 +167,7 @@ public class CartControllerIntegrationTest {
     @Test
     public void should_delete_cart_item_by_id() throws Exception {
         Product product = new Product("Apple" , "Fruit" , BigDecimal.valueOf(100));
-        User user = new User("Shop_Owner" , "Owner");
+        User user = new User("Shop_Owner" , "Owner" , "ROLE_ADMIN");
         productRepository.save(product);
         userRepository.save(user);
         cartService.addToCart("Shop_Owner" , 1 , 2);

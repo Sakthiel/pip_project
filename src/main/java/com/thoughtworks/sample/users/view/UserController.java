@@ -22,6 +22,7 @@ public class UserController {
         Map<String, Object> userDetails = new HashMap<>();
 
         userDetails.put("username", username);
+        userDetails.put("role" , user.getRole());
         return userDetails;
     }
 

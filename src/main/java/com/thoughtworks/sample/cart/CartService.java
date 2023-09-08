@@ -29,11 +29,11 @@ public class CartService {
     }
 
     public Cart addToCart(String userName , Integer productId , Integer quantity){
-        Optional<User> userOpitonal  = userRepository.findByUsername(userName);
-        if(userOpitonal.isEmpty()){
+        Optional<User> userOptional  = userRepository.findByUsername(userName);
+        if(userOptional.isEmpty()){
             throw new RuntimeException("User not found");
         }
-        User user = userOpitonal.get();
+        User user = userOptional.get();
 
         Optional<Product> productOptional = productRepository.findById(productId);
         if(productOptional.isEmpty()){

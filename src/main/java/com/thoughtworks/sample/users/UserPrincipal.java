@@ -16,7 +16,7 @@ public class UserPrincipal implements UserDetails {
         authorityList.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return "ROLE_ADMIN";
+                return user.getRole();
             }
         });
     }
