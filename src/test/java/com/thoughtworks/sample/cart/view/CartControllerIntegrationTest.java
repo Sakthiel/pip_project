@@ -3,6 +3,9 @@ package com.thoughtworks.sample.cart.view;
 import com.thoughtworks.sample.Application;
 import com.thoughtworks.sample.cart.CartService;
 import com.thoughtworks.sample.cart.repository.CartRepository;
+import com.thoughtworks.sample.cart.utility.EmailService;
+import com.thoughtworks.sample.customer.repository.Customer;
+import com.thoughtworks.sample.customer.repository.CustomerRepository;
 import com.thoughtworks.sample.product.repository.Product;
 import com.thoughtworks.sample.product.repository.ProductRepository;
 import com.thoughtworks.sample.users.repository.User;
@@ -16,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,7 +31,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(classes = Application.class ,properties =  "spring.config.name=application-test")
+@SpringBootTest(classes = Application.class ,properties =  "spring.config.name=application")
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @WithMockUser
@@ -40,20 +44,27 @@ public class CartControllerIntegrationTest {
     private UserRepository userRepository;
     @Autowired
     private CartRepository cartRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
     @Autowired
     private CartService cartService;
+    @Autowired
+    private EmailService emailService;
 
     @BeforeEach
     public void beforeEach(){
         productRepository.deleteAll();
         userRepository.deleteAll();
         cartRepository.deleteAll();
+        customerRepository.deleteAll();
     }
     @AfterEach
     public void afterEach(){
         productRepository.deleteAll();
         userRepository.deleteAll();
         cartRepository.deleteAll();
+        customerRepository.deleteAll();
     }
 
     @Test
@@ -178,4 +189,36 @@ public class CartControllerIntegrationTest {
 
     }
 
+    @Test
+    public void should_send_mail_with_billPdf_to_user() throws Exception{
+        Product product = new Product("Apple" , "Fruit" , BigDecimal.valueOf(100));
+        User user = new User("Shop_Owner" , "Owner" , "ROLE_ADMIN");
+        Customer customer = new Customer("shopOwner"  , "9629579646" , "spriyan2000@gmail.com" , user);
+        productRepository.save(product);
+        userRepository.save(user);
+        customerRepository.save(customer);
+
+        final String requestJson = "[\n" +
+                "    {\n" +
+                "        \"id\": 4,\n" +
+                "        \"product\": {\n" +
+                "            \"id\": 2,\n" +
+                "            \"productName\": \"Tomato\",\n" +
+                "            \"category\": \"Vegetable\",\n" +
+                "            \"unitPrice\": 200.00\n" +
+                "        },\n" +
+                "        \"user\": {\n" +
+                "            \"id\": 2,\n" +
+                "            \"username\": \"Shop_Owner\",\n" +
+                "            \"password\": \"Owner\",\n" +
+                "            \"role\": \"ROLE_ADMIN\"\n" +
+                "        },\n" +
+                "        \"quantity\": 8\n" +
+                "    }\n" +
+                "]";
+        mockMvc.perform(MockMvcRequestBuilders.post("/carts/sendMail").
+                        contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestJson).with(httpBasic("Shop_Owner", "Owner")))
+                .andExpect(status().isOk());
+    }
 }

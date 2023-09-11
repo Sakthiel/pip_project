@@ -2,8 +2,13 @@ package com.thoughtworks.sample.cart;
 
 import com.thoughtworks.sample.cart.repository.Cart;
 import com.thoughtworks.sample.cart.repository.CartRepository;
+import com.thoughtworks.sample.cart.utility.EmailService;
+import com.thoughtworks.sample.cart.utility.PdfGenerator;
+import com.thoughtworks.sample.customer.repository.Customer;
+import com.thoughtworks.sample.customer.repository.CustomerRepository;
 import com.thoughtworks.sample.product.repository.Product;
 import com.thoughtworks.sample.product.repository.ProductRepository;
+import com.thoughtworks.sample.users.UserPrincipalService;
 import com.thoughtworks.sample.users.repository.User;
 import com.thoughtworks.sample.users.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,11 +34,17 @@ public class CartServiceTest {
 
     ProductRepository productRepository;
 
+    UserPrincipalService userPrincipalService;
+
+    CustomerRepository customerRepository;
+
+    EmailService emailService;
     Cart cart;
     Product product;
 
     User user;
 
+    Customer customer;
     int quantity = 2;
     @BeforeEach
     public void beforeEach(){
@@ -43,13 +54,21 @@ public class CartServiceTest {
 
         productRepository = mock(ProductRepository.class);
 
+        userPrincipalService = mock(UserPrincipalService.class);
+
+        emailService = mock(EmailService.class);
+
+        customerRepository = mock(CustomerRepository.class);
+
+
         product = new Product("Apple" , "Fruit" , BigDecimal.valueOf(100));
 
         user = new User("testUser" , "User123");
 
+        customer = new Customer("testUser" , "1234567890" , "testUser@gmail.com" , user );
         cart = new Cart(product , user , quantity);
 
-        cartService = new CartService(cartRepository,userRepository,productRepository);
+        cartService = new CartService(cartRepository,userRepository,productRepository , userPrincipalService , emailService , customerRepository) ;
 
     }
 
@@ -86,11 +105,12 @@ public class CartServiceTest {
     public void should_return_all_cart_Items(){
         List<Cart> cartList = new ArrayList<>();
         cartList.add(cart);
-        when(cartRepository.findAll()).thenReturn(cartList);
+        when(userPrincipalService.findUserByUsername("testUser")).thenReturn(user);
+        when(cartRepository.findByUserId(user.getId())).thenReturn(cartList);
 
-        List<Cart> actualList = cartService.getCartItems();
+        List<Cart> actualList = cartService.getCartItems("testUser");
 
-        verify(cartRepository).findAll();
+        verify(cartRepository).findByUserId(user.getId());
         assertThat(actualList , is(equalTo(cartList))) ;
 
 
@@ -106,5 +126,20 @@ public class CartServiceTest {
 
         verify(cartRepository).delete(mockCartItem);
         assertThat(message , is(equalTo("Deleted cartItem with id " + id)));
+    }
+
+    @Test
+    public void should_send_mail_with_pdf_to_user(){
+        List<Cart> cartList = new ArrayList<>();
+        cartList.add(cart);
+
+        PdfGenerator generator = mock(PdfGenerator.class);
+        List<Customer> customers = new ArrayList<>();
+        customers.add(customer);
+        when(customerRepository.getDetailsByUserid(user.getId())).thenReturn(customers);
+
+        cartService.sendMail(cartList);
+
+        verify(emailService).sendMailWithBillPdf(customer);
     }
 }

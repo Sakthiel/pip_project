@@ -89,9 +89,9 @@ public class ProductControllerIntegrationTest {
      public void should_delete_the_product_by_id() throws Exception{
         productRepository.save(new Product("Apple" , "Fruit" , BigDecimal.valueOf(100)));
 
-        mockMvc.perform(delete("/products/1").with(httpBasic("Shop_Owner", "Owner")))
+        mockMvc.perform(delete("/products/3").with(httpBasic("Shop_Owner", "Owner")))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("Deleted product with id 1"));
+                .andExpect(MockMvcResultMatchers.content().string("Deleted product with id 3"));
     }
 
     @Test

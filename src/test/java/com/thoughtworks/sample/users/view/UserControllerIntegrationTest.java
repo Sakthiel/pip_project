@@ -16,7 +16,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(classes = Application.class , properties =  "spring.config.name=application-test")
+@SpringBootTest(classes = Application.class , properties =  "spring.config.name=application")
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class UserControllerIntegrationTest {
@@ -33,7 +33,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void shouldLoginSuccessfully() throws Exception {
-        userRepository.save(new User("testUser", "owner123"));
+        userRepository.save(new User("testUser", "owner123" , "ROLE_CUSTOMER"));
 
         mockMvc.perform(get("/login")
                         .with(httpBasic("testUser", "owner123")))

@@ -25,4 +25,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponse error = new ErrorResponse("Illegal Argument", singletonList(ex.getMessage()));
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex) {
+        ErrorResponse error = new ErrorResponse("Something went wrong", singletonList(ex.getMessage()));
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

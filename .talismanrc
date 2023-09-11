@@ -27,4 +27,24 @@ fileignoreconfig:
   checksum: 6da02023a648f7b6a11f820d77105d259b911d4e6e218c628eb922ddf1684842
 version: ""
 
+fileignoreconfig:
+- filename: src/main/resources/db/migration/V1.10__CreateCustomerTable.sql
+  checksum: bd03c8b239967f5ec91b3cddc17adbff9420fdb8146c5229c026a55948880c04
+- filename: src/main/resources/db/migration/V1.7__CreateCartTable.sql
+  checksum: 7901a61f10851d58509f2d2da00dec24e1f6ba1efe16c17f862837a6b7eafafe
+- filename: src/main/resources/db/migration/V1.8__AlterUserTable.sql
+  checksum: 9890562817afc598bbcbac360e710df6102f7aef481babc60230cef5b905d647
+- filename: src/main/resources/db/migration/V1.9__AlterUserTable.sql
+  checksum: 32ad019ef29bff5711aaf968ccc6cb0fd001ae4c874a37b20b4e3eca1066dcda
+- filename: src/main/java/com/thoughtworks/sample/customer/model/UserCredentials.java
+  checksum: 5310255978a53243b07716ab6bb3d24789e6cffc26d1f8f4b8c8049729c797f3
+- filename: src/main/java/com/thoughtworks/sample/users/repository/User.java
+  checksum: c1a3dc08d5e25f4e79f2971ebb5028909af025fa95fa2c49493ab6a8923bada8
+- filename: src/main/java/com/thoughtworks/sample/customer/CustomerService.java
+  checksum: 4014c2cfca027cb859bb4cd3c4e8a0986c92de7e1f1794cd632343708126a3b8
+- filename: src/test/java/com/thoughtworks/sample/customer/model/UserCredentialTest.java
+  checksum: b70b60a6c27c99899d36669bf8022a3e8244c9339a0806897788a1c338847a8a
+- filename: src/test/java/com/thoughtworks/sample/customer/view/CustomerControllerIntegrationTest.java
+  checksum: dc39436c5b585c048581009b325734bc1404bac01d45e14fc306630137d9d372
+version: ""
 
