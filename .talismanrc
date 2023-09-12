@@ -54,4 +54,12 @@ fileignoreconfig:
 - filename: src/test/java/com/thoughtworks/sample/cart/view/CartControllerIntegrationTest.java
   checksum: 1a3bdab52429fd19d7b3f938a98e7706732f14e7a6f5cdbb619f985949f8a1cd
 version: ""
+fileignoreconfig:
+- filename: src/main/resources/db/migration/V1.11__CreateOtpTable.sql
+  checksum: 0e842c6ec8c3a56204edbfd46856ca40110219928ec5c76c7304aec70a611db1
+- filename: src/main/resources/db/migration/V1.12__AlterCustomerTable.sql
+  checksum: 21410e6c287b722adeb3b14303d677df954230f91db828617d295967f01d77bf
+- filename: src/main/java/com/thoughtworks/sample/sms/TwilioSmsSender.java
+  checksum: e308d0e1926a7b6f23dd870423aa2bdcb917e3a4d42efb20b9759821e576b636
+version: ""
 

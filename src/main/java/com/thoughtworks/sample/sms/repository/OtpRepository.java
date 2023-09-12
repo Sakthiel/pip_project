@@ -10,4 +10,6 @@ import java.util.List;
 public interface OtpRepository extends JpaRepository<OtpInformation , Long> {
     @Query(value = "select * from otpinfo where otp = ?1" , nativeQuery = true)
     List<OtpInformation> getByOtp(String otpInRequest);
+    @Query(value = "select * from otpinfo where phone_number = ?1" , nativeQuery = true)
+    List<OtpInformation> getByPhoneNumber(String phoneNumber);
 }

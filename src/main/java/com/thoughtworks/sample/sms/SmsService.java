@@ -46,9 +46,20 @@ public class SmsService {
             e.printStackTrace();
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
+        List <OtpInformation> otpList = otpRepository.getByPhoneNumber(smsRequest.getPhoneNumber());
+        if(!otpList.isEmpty()){
+            updateOtp(otpList , otp);
+            return ResponseEntity.ok("Message Sent Successfully");
+        }
         OtpInformation otpInformation = new OtpInformation(smsRequest.getPhoneNumber() , otp);
         otpRepository.save(otpInformation);
         return ResponseEntity.ok("Message Sent Successfully");
+    }
+
+    private void updateOtp(List<OtpInformation> otpList, String otp) {
+        OtpInformation otpInformation = otpList.get(0);
+        otpInformation.setOtp(otp);
+        otpRepository.save(otpInformation);
     }
 
     public String generateOtp(){
