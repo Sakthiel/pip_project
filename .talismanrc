@@ -48,3 +48,10 @@ fileignoreconfig:
   checksum: dc39436c5b585c048581009b325734bc1404bac01d45e14fc306630137d9d372
 version: ""
 
+fileignoreconfig:
+- filename: src/main/resources/application.yml
+  checksum: 7afd6965ce1f7e81248518f5ab6caa35a734c3b7392741c91b394d60fc21ad0e
+- filename: src/test/java/com/thoughtworks/sample/cart/view/CartControllerIntegrationTest.java
+  checksum: 1a3bdab52429fd19d7b3f938a98e7706732f14e7a6f5cdbb619f985949f8a1cd
+version: ""
+

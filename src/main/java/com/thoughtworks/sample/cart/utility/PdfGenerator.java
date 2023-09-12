@@ -20,24 +20,23 @@ public class PdfGenerator {
         // Getting instance of PdfWriter
         PdfWriter.getInstance(document, new FileOutputStream(filePath));
 
-        // Opening the created document to modify it
+
         document.open();
 
-        // Creating font
-        // Setting font style and size
+
         Font fontTitle = FontFactory.getFont(FontFactory.TIMES_ROMAN);
         fontTitle.setSize(20);
 
-        // Creating paragraph
+
         Paragraph paragraph = new Paragraph("Invoice", fontTitle);
 
-        // Aligning the paragraph in document
+
         paragraph.setAlignment(Paragraph.ALIGN_CENTER);
 
-        // Adding the created paragraph in document
+
         document.add(paragraph);
 
-        // Creating a table of 3 columns
+        // Creating a table of 5 columns
         PdfPTable table = new PdfPTable(5);
 
         // Setting width of table, its columns and spacing
@@ -52,8 +51,7 @@ public class PdfGenerator {
         cell.setBackgroundColor(CMYKColor.MAGENTA);
         cell.setPadding(5);
 
-        // Creating font
-        // Setting font style and size
+
         Font font = FontFactory.getFont(FontFactory.TIMES_ROMAN);
         font.setColor(CMYKColor.WHITE);
 
@@ -71,7 +69,7 @@ public class PdfGenerator {
         table.addCell(cell);
 
         Integer totalCost = 0;
-        // Iterating over the list of students
+
         Integer totalCostPerItem ;
         for (Cart item : cartItems) {
 
@@ -89,7 +87,7 @@ public class PdfGenerator {
         }
 
 
-        // Adding the created table to document
+
         document.add(table);
 
         // Creating Total cost

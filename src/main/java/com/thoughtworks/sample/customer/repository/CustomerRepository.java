@@ -10,4 +10,6 @@ import java.util.List;
 public interface CustomerRepository extends JpaRepository<Customer , Long> {
     @Query(value = "Select * from customer where user_id=?1",nativeQuery=true)
     List<Customer> getDetailsByUserid(Long user_id);
+    @Query(value = "Select * from customer where phone_number = ?1",nativeQuery=true)
+    List<Customer> getCustomerByPhoneNumber(String phoneNumber);
 }

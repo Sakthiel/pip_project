@@ -22,6 +22,7 @@ repositories {
 }
 
 dependencies {
+	implementation group: 'com.twilio.sdk', name: 'twilio', version: '7.50.1'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
