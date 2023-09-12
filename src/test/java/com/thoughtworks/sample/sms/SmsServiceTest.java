@@ -5,6 +5,7 @@ import com.thoughtworks.sample.customer.repository.Customer;
 import com.thoughtworks.sample.customer.repository.CustomerRepository;
 import com.thoughtworks.sample.sms.model.SmsRequest;
 import com.thoughtworks.sample.sms.model.VerifyRequest;
+import com.thoughtworks.sample.sms.model.VerifyResponse;
 import com.thoughtworks.sample.sms.repository.OtpInformation;
 import com.thoughtworks.sample.sms.repository.OtpRepository;
 import com.thoughtworks.sample.users.repository.User;
@@ -14,6 +15,7 @@ import com.twilio.type.PhoneNumber;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -91,12 +93,16 @@ public class SmsServiceTest {
         otpInformation = new OtpInformation("1234567890" , "123456");
         List<OtpInformation> otpList = new ArrayList<>();
         otpList.add(otpInformation);
+        List<Customer> customerList = new ArrayList<>();
+        customerList.add(customer);
         when(otpRepository.getByOtp(otp)).thenReturn(otpList);
+        when(customerRepository.getCustomerByPhoneNumber(otpInformation.getPhoneNumber())).thenReturn(customerList);
 
         ResponseEntity<?> response = smsService.verify(verifyRequest);
 
         verify(otpRepository).delete(otpInformation);
-        assertThat(response.getBody() , is(equalTo("Verified Successfully")));
+        verify(customerRepository).getCustomerByPhoneNumber(otpInformation.getPhoneNumber());
+        assertThat( response.getStatusCode(), is(equalTo(HttpStatus.OK)));
 
     }
 

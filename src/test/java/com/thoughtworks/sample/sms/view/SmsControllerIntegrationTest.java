@@ -102,6 +102,10 @@ public class SmsControllerIntegrationTest {
     public void should_verify_otp() throws Exception {
         OtpInformation otpInformation = new OtpInformation("1234567890" , "123456");
         otpRepository.save(otpInformation);
+        user = new User("testUser" , "User123" , "ROLE_CUSTOMER");
+        customer = new Customer("testUser" , "1234567890" , "testUser@gmail.com" , user );
+        userRepository.save(user);
+        customerRepository.save(customer);
 
         final String requestJson = "{\n" +
                 "    \"otp\" : \"123456\"\n" +
@@ -118,6 +122,10 @@ public class SmsControllerIntegrationTest {
     public void should_return_badRequest_when_otp_is_wrong() throws Exception {
         OtpInformation otpInformation = new OtpInformation("1234567890" , "123456");
         otpRepository.save(otpInformation);
+        user = new User("testUser" , "User123" , "ROLE_CUSTOMER");
+        customer = new Customer("testUser" , "1234567890" , "testUser@gmail.com" , user );
+        userRepository.save(user);
+        customerRepository.save(customer);
 
         final String requestJson = "{\n" +
                 "    \"otp\" : \"123423\"\n" +

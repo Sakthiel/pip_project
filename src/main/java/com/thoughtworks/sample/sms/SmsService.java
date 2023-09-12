@@ -4,8 +4,10 @@ import com.thoughtworks.sample.customer.repository.Customer;
 import com.thoughtworks.sample.customer.repository.CustomerRepository;
 import com.thoughtworks.sample.sms.model.SmsRequest;
 import com.thoughtworks.sample.sms.model.VerifyRequest;
+import com.thoughtworks.sample.sms.model.VerifyResponse;
 import com.thoughtworks.sample.sms.repository.OtpInformation;
 import com.thoughtworks.sample.sms.repository.OtpRepository;
+import com.thoughtworks.sample.users.repository.User;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
@@ -14,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 
@@ -84,7 +88,21 @@ public class SmsService {
            if(!otp.getOtp().equals(otpInRequest)){
                return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Given Otp is wrong");
            }
+
+           List<Customer> customerList = customerRepository.getCustomerByPhoneNumber(otp.getPhoneNumber());
+           User user = customerList.get(0).getUser();
+
+        VerifyResponse verifyResponse = constructVerifyResponse(user);
            otpRepository.delete(otp);
-           return ResponseEntity.status(HttpStatus.OK).body("Verified Successfully");
+           return new ResponseEntity<>(verifyResponse , HttpStatus.OK);
+    }
+
+    private VerifyResponse constructVerifyResponse(User user) {
+        String username = user.getUsername();
+        String password = user.getPassword();
+        String usernameWithPassword = username + ":" + password;
+        String token = new String(Base64.getEncoder().encode(usernameWithPassword.getBytes()));
+        VerifyResponse verifyResponse = new VerifyResponse(token , user.getRole());
+        return verifyResponse;
     }
 }
